@@ -13,6 +13,9 @@ class Length(ATest):
     def test(self, ps):
         return ps.length >= self.length
 
+    def __str__(self):
+        return "Your password must be a minimum of {} characters.".format(self.length)
+
 
 class Uppercase(ATest):
     """ Test whether the password has >= `count` uppercase characters """
@@ -24,6 +27,9 @@ class Uppercase(ATest):
     def test(self, ps):
         return ps.letters_uppercase >= self.count
 
+    def __str__(self):
+        return "Your password must contain a minimum of {} uppercase characters.".format(self.count)
+
 
 class Numbers(Uppercase):
     """ Test whether the password has >= `count` numeric characters """
@@ -31,12 +37,18 @@ class Numbers(Uppercase):
     def test(self, ps):
         return ps.numbers >= self.count
 
+    def __str__(self):
+        return "Your password must contain a minimum of {} number.".format(self.count)
+
 
 class Special(Uppercase):
     """ Test whether the password has >= `count` special characters """
 
     def test(self, ps):
         return ps.special_characters >= self.count
+
+    def __str__(self):
+        return "Your password must contain a minimum of {} special characters.".format(self.count)
 
 
 class NonLetters(Uppercase):
@@ -46,6 +58,9 @@ class NonLetters(Uppercase):
         non_letters = ps.length - ps.letters
         return non_letters >= self.count
 
+    def __str__(self):
+        return "Your password must contain a minimum of {} non-letter characters.".format(self.count)
+
 
 class NonLettersLc(Uppercase):
     """ Test whether the password has >= `count` non-lowercase characters """
@@ -53,6 +68,9 @@ class NonLettersLc(Uppercase):
     def test(self, ps):
         non_lowercase_letters = ps.length - ps.letters_lowercase
         return non_lowercase_letters >= self.count
+
+    def __str__(self):
+        return "Your password must contain a minimum of {} non-lowercase characters.".format(self.count)
 
 
 class EntropyBits(ATest):
@@ -69,6 +87,9 @@ class EntropyBits(ATest):
 
     def test(self, ps):
         return ps.entropy_bits >= self.bits
+    
+    def __str__(self):
+        return "Your password must have a minimum of {} entropy bits.".format(self.bits)
 
 
 class Strength(ATest):
@@ -85,3 +106,6 @@ class Strength(ATest):
 
     def test(self, ps):
         return (1 - ps.weakness_factor) * ps.strength(self.weak_bits) >= self.strength
+
+    def __str__(self):
+        return "Your password is not strong enough."
